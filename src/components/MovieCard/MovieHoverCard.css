@@ -1,0 +1,43 @@
+.movie-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.movie-image {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+}
+
+.movie-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  transition: .3s;
+}
+
+.movie-card:hover .movie-overlay {
+  opacity: 1;
+}
+
+.movie-overlay h3,
+.movie-overlay p {
+  color: white;
+  margin: 8px 0;
+}
+
+.movie-overlay button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
