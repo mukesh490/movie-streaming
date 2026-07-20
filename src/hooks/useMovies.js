@@ -17,7 +17,7 @@ const useMovies = (fetchFunction) => {
             setMovies(data);
             setError("");
         } catch (err) {
-            console.error(err);
+           
             setError("Something went wrong");
         } finally {
             setLoading(false);

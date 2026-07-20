@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { getPopularMovies } from "../../services/movieService";
 import FeaturedMovieCard from "../MovieCard/FeaturedMovieCard";
-import { feature_movies } from "../../utils/constants";
-
+import { feature_movies, MESSAGE, MOVIES_HEADING } from "../../utils/constants";
+import MovieSkeleton from "../Skeleton/MovieSkeleton";
 
 const containerVariants = {
   hidden: {},
@@ -36,6 +36,8 @@ const itemVariants = {
 
 export default function FeaturedMovies() {
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const sectionRef = useRef(null);
 
@@ -56,18 +58,48 @@ export default function FeaturedMovies() {
         const data = await getPopularMovies();
         setMovies(data.slice(0, 10));
       } catch (error) {
+        setError(error);
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchMovies();
   }, []);
 
+  if (loading) {
+    return (
+      <section className="overflow-visible bg-black px-6 py-10">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="mb-8 text-3xl font-bold text-white">
+            {MOVIES_HEADING.popular}
+          </h2>
+
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <MovieSkeleton key={index} />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="bg-black py-20">
+        <div className="mx-auto max-w-7xl text-center">
+          <h2 className="text-2xl font-semibold text-red-500">{error}</h2>
+
+          <p className="mt-2 text-gray-400">{MESSAGE}</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section
-      ref={sectionRef}
-      className="bg-black py-24 px-6 overflow-hidden"
-    >
+    <section ref={sectionRef} className="bg-black py-24 px-6 overflow-hidden">
       <motion.div
         style={{
           y,
@@ -102,7 +134,6 @@ export default function FeaturedMovies() {
           <h2 className="text-5xl md:text-6xl font-bold text-white">
             {feature_movies.heading}
           </h2>
-         
 
           <p className="text-gray-400 mt-5 max-w-2xl mx-auto leading-7">
             {feature_movies.message}
@@ -128,11 +159,8 @@ export default function FeaturedMovies() {
           "
         >
           {movies.map((movie) => (
-            <motion.div
-              key={movie.id}
-              variants={itemVariants}
-            >
-              <FeaturedMovieCard movie={movie}/>
+            <motion.div key={movie.id} variants={itemVariants}>
+              <FeaturedMovieCard movie={movie} />
             </motion.div>
           ))}
         </motion.div>
