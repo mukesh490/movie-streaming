@@ -87,7 +87,6 @@ function MovieSlider({ title, movies }) {
             <ChevronLeft size={24} />
           </button>
 
-          {/* Slider */}
 
           <motion.div
             ref={sliderRef}
@@ -112,14 +111,12 @@ function MovieSlider({ title, movies }) {
               <motion.div
                 key={movie.id}
                 variants={cardVariants}
-                className="min-w-[220px] shrink-0"
+                className="min-w-55 shrink-0"
               >
                 <MovieCard movie={movie} />
               </motion.div>
             ))}
           </motion.div>
-
-          {/* Right Button */}
 
           <button
             onClick={scrollRight}

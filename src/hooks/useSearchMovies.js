@@ -24,12 +24,14 @@ function useSearchMovies(query) {
       } catch (err) {
         console.error(err);
         setError("Something went wrong");
+        setLoading(true);
       } finally {
         setLoading(false);
       }
     };
 
     fetchMovies();
+    setLoading(true);
   }, [query]);
 
   return {

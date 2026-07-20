@@ -15,12 +15,14 @@ function useMovieDetail(id) {
                 setMovie(data);
                 setError("");
             } catch (error) {
+                setLoading(true);
                 setError("Something went wrong");
             } finally {
                 setLoading(false);
             }
         }
           fetchMoviesdetails();
+          setLoading(true);
     }, [id])
      return {
     movie,
