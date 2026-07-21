@@ -9,7 +9,6 @@ const useMovies = (fetchFunction) => {
         fetchMovies();
     }, [fetchFunction]);
 
-
     const fetchMovies = async () => {
         try {
             setLoading(true);
